@@ -14,10 +14,15 @@ class DemoController extends Controller
      */
     public function helloAction()
     {
-        $name = 'Peter';
-
         return new Response(
             '<html><body>Hello '.$name.'</body></html>'
           );
+    }
+
+    public function indexAction(Request $request)
+    {
+      // retrieve GET and POST variables respectively
+      $name = $request->query->get('page');
+      $name = $request->request->get('page');
     }
 }
