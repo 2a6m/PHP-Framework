@@ -33,7 +33,6 @@ class Morceau
 
     /**
      * @ORM\Column(type="string", length=255)
-     * Plusieurs Morceaux ont un Artiste
      * @ORM\ManyToOne(targetEntity="Artiste", inversedBy="nom")
      * @ORM\JoinColumn(name="artiste_id", referencedColumnName="id")
      */

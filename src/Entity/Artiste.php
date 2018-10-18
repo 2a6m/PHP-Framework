@@ -18,8 +18,7 @@ class Artiste
 
     /**
      * @ORM\Column(type="string", length=255)
-     * Un Artiste a Plusieurs Morceaux
-     * @ORM\OneToMany(targetEntity="App\Entity\Morceau", mappedBy="artiste")
+     * @ORM\OneToMany(targetEntity="Morceau", mappedBy="artiste")
      */
     private $nom;
 
