@@ -15,6 +15,7 @@ class ArtisteType extends AbstractType
             ->add('nom')
             ->add('date_naissance')
             ->add('genre')
+            ->add('save', SubmitType::class)
         ;
     }
 
