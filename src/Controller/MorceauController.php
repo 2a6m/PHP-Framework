@@ -31,6 +31,6 @@ class MorceauController extends AbstractController
         return $this->redirect($this->generateUrl('add_succes'));
       }
 
-      return $this->render('add.html.twig', array('form' => $form->createView()));
+      return $this->render('morceau/add.html.twig', array('form' => $form->createView()));
     }
 }

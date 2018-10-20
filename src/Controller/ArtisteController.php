@@ -31,6 +31,6 @@ class ArtisteController extends AbstractController
         return $this->redirect($this->generateUrl('add_succes'));
       }
 
-      return $this->render('add.html.twig', array('form' => $form->createView()));
+      return $this->render('artiste/add.html.twig', array('form' => $form->createView()));
     }
 }
