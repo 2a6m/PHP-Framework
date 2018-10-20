@@ -17,6 +17,9 @@ class MorceauController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/morceau/add", name="ajouter_morceau")
+     */
     public function addAction()
     {
       $form = $this->createForm(MorceauType::class, new User());

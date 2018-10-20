@@ -17,6 +17,9 @@ class ArtisteController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/artiste/add", name="ajouter_artiste")
+     */
     public function addAction()
     {
       $form = $this->createForm(MorceauType::class, new User());
