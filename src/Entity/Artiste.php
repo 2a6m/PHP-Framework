@@ -27,7 +27,7 @@ class Artiste
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank()
-     * @Assert\date()
+     * @Assert\Date()
      */
     private $date_naissance;
 
