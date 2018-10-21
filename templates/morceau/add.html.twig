@@ -1,5 +1,3 @@
-{% block body %}
-<div>
-{{ form(form) }}
-</div>
-{% endblock %}
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}

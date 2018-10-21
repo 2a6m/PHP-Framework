@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Morceau;
+use App\Form\MorceauType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,8 +24,10 @@ class MorceauController extends AbstractController
      */
     public function addAction()
     {
-      $form = $this->createForm(MorceauType::class, new User());
-      $form->handleRequest($request);
+      //https://symfony.com/doc/current/best_practices/forms.html
+
+      $form = $this->createForm(MorceauType::class, new Morceau());
+      //$form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->valid()) {
         // fait quelque chose comme sauvegarder la tache dans la db
