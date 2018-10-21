@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArtisteRepository")
@@ -19,16 +20,20 @@ class Artiste
     /**
      * @ORM\Column(type="string", length=255)
      * @ORM\OneToMany(targetEntity="Morceau", mappedBy="artiste")
+     * @Assert\NotBlank()
      */
     private $nom;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
+     * @Assert\date()
      */
     private $date_naissance;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $genre;
 
