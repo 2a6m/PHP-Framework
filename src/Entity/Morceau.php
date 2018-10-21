@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MorceauRepository")
@@ -18,16 +19,20 @@ class Morceau
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $titre;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotBlank()
+     * @Assert\Time()
      */
     private $duree;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $genre;
 
@@ -35,11 +40,14 @@ class Morceau
      * @ORM\Column(type="string", length=255)
      * @ORM\ManyToOne(targetEntity="Artiste", inversedBy="nom")
      * @ORM\JoinColumn(name="artiste_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     private $artiste;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
+     * @Assert\Date()
      */
     private $date;
 
