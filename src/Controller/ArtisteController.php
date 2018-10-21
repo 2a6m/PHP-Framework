@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Artiste;
+use App\Form\ArtisteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,8 +24,8 @@ class ArtisteController extends AbstractController
      */
     public function addAction()
     {
-      $form = $this->createForm(MorceauType::class, new User());
-      $form->handleRequest($request);
+      $form = $this->createForm(ArtisteType::class, new Artiste());
+      //$form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->valid()) {
         // fait quelque chose comme sauvegarder la tache dans la db
