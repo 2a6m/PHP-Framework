@@ -33,6 +33,7 @@ class Morceau
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * //@Assert\Choice("Electro-Swing", "Rock", "Pop")
      */
     private $genre;
 
