@@ -32,4 +32,25 @@ class ArtisteType extends AbstractType
             'data_class' => Artiste::class,
         ]);
     }
+
+    public function isValid()
+    {
+        $errors = $validator->validate($this);
+
+        if (count($errors) > 0) {
+            /*
+             * Uses a __toString method on the $errors variable which is a
+             * ConstraintViolationList object. This gives us a nice string
+             * for debugging.
+             */
+            //$errorsString = (string) $errors;
+
+            //return new Response($errorsString);
+            return (False);
+        }
+        else {
+            return (True);
+        }
+    }
+
 }
