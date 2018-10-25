@@ -42,7 +42,6 @@ class Morceau
     /**
      * @ORM\ManyToOne(targetEntity="Artiste")
      * @ORM\JoinColumn(name="artiste_id", referencedColumnName="id")
-     * @Assert\NotBlank()
      */
     private $artiste;
 
@@ -99,7 +98,7 @@ class Morceau
         return $this->artiste;
     }
 
-    public function setArtiste(string $artiste): self
+    public function setArtiste(?Artiste $artiste): self
     {
         $this->artiste = $artiste;
 

@@ -3,29 +3,41 @@
 namespace App\Form;
 
 use App\Entity\Morceau;
+use App\Entity\Artiste;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class MorceauType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-      // https://symfony.com/doc/current/reference/forms/types.html
         $builder
             ->add('titre')
-            ->add('duree')
-            ->add('genre', ChoiceType::class, array('choices' => array(
-                  'Electro-Swing'=>'Electro-Swing',
-                  'Rock'=>'Rock',
-                  'Pop'=>'Pop')))
-            // create ChoiceType::class to choose between the existing artists
-            ->add('artiste')
+            ->add('duree', TimeType::class, array(
+                'input' => 'datetime',
+            ))
+            ->add('genre', Choicetype::class, array(
+                'choices' => array(
+                    'Electro-Swing' => 'Electro-Swing',
+                    'Rock' => 'Rock',
+                    'Pop' => 'Pop',
+                )
+            ))
             ->add('date', DateType::class, array(
-                    'widget' => 'single_text'))
+                'widget' => 'single_text',
+            ))
+            ->add('artiste', EntityType::class, array(
+                'class' => Artiste::class,
+                'choice_label' => 'nom',
+                'choice_value' => 'id',
+            ))
             ->add('save', SubmitType::class)
         ;
     }
@@ -41,19 +53,6 @@ class MorceauType extends AbstractType
     {
         $errors = $validator->validate($this);
 
-        if (count($errors) > 0) {
-            /*
-             * Uses a __toString method on the $errors variable which is a
-             * ConstraintViolationList object. This gives us a nice string
-             * for debugging.
-             */
-            //$errorsString = (string) $errors;
-
-            //return new Response($errorsString);
-            return (False);
-        }
-        else {
-            return (True);
-        }
+        return (count($errors) > 0);
     }
 }

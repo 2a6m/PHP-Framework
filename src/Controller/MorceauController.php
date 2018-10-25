@@ -24,7 +24,7 @@ class MorceauController extends AbstractController
     /**
      * @Route("/morceau/add", name="ajouter_morceau")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
         //https://symfony.com/doc/current/best_practices/forms.html
 
