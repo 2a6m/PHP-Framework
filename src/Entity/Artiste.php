@@ -19,7 +19,6 @@ class Artiste
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @ORM\OneToMany(targetEntity="Morceau", mappedBy="artiste")
      * @Assert\NotBlank()
      */
     private $nom;

@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+// https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MorceauRepository")
  */
@@ -38,8 +40,7 @@ class Morceau
     private $genre;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @ORM\ManyToOne(targetEntity="Artiste", inversedBy="nom")
+     * @ORM\ManyToOne(targetEntity="Artiste")
      * @ORM\JoinColumn(name="artiste_id", referencedColumnName="id")
      * @Assert\NotBlank()
      */
