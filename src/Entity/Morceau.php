@@ -98,6 +98,7 @@ class Morceau
         return $this->artiste;
     }
 
+    //sauvez par Ludo :)
     public function setArtiste(?Artiste $artiste): self
     {
         $this->artiste = $artiste;
