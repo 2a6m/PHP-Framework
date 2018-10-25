@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class ArtisteType extends AbstractType
 {
@@ -14,8 +16,12 @@ class ArtisteType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('date_naissance')
-            ->add('genre')
+            ->add('date_naissance', DateType::class, array(
+                    'widget' => 'single_text'))
+            ->add('genre', ChoiceType::class, array('choices' => array(
+                  'Electro-Swing'=>'Electro-Swing',
+                  'Rock'=>'Rock',
+                  'Pop'=>'Pop')))
             ->add('save', SubmitType::class)
         ;
     }
