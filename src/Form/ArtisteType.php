@@ -36,6 +36,7 @@ class ArtisteType extends AbstractType
 
     public function isValid()
     {
+        $validator = new ValidatorInterface();
         $errors = $validator->validate($this);
 
         if (count($errors) > 0) {
