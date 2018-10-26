@@ -16,8 +16,9 @@ class ArtisteController extends AbstractController
      */
     public function index()
     {
+        $data = $this->getDoctrine()->getRepository(Artiste::class)->findAll();
         return $this->render('artiste/index.html.twig', [
-            'controller_name' => 'ArtisteController',
+            'data' => $data,
         ]);
     }
 
@@ -51,5 +52,25 @@ class ArtisteController extends AbstractController
       }
 
       return $this->render('artiste/add.html.twig', array('form' => $form->createView()));
+    }
+
+    /*
+     * @Route("/artiste/remove", name="supprimer_artiste")
+     */
+    public function removeAction(Request $request)
+    {
+        return $this->render('artiste/remove.html.twig', [
+            'method_name' => 'artiste remove_action',
+        ]);
+    }
+
+    /*
+     * @Route("/artiste/update", name="modifier_artiste")
+     */
+    public function updateAction(Request $request)
+    {
+        return $this->render('artiste/update.html.twig', [
+            'method_name' => 'artiste update_action',
+        ]);
     }
 }

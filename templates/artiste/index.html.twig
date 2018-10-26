@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Artiste{% endblock %}
 
 {% block body %}
 <style>
@@ -8,13 +8,35 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div>
+    <h1>Liste des artistes</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/ArtisteController.php'|file_link(0) }}">src/Controller/ArtisteController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/artiste/index.html.twig'|file_link(0) }}">templates/artiste/index.html.twig</a></code></li>
-    </ul>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Date de naissance</th>
+            <th>Genre</th>
+            <th>Modification</th>
+        </tr>
+
+        {% for d in data %}
+            <tr>
+                <th>{{ d.id }}</th>
+                <th>{{ d.nom }}</th>
+                <th>{{ d.datenaissance.format('d-m-Y') }}</th>
+                <th>{{ d.genre }}</th>
+                <th>
+                    <a href="/artiste/update"><button>Modifier</button></a>
+                    <a href="/artiste/remove"><button>Supprimer</button></a>
+                </th>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="/artiste/add"><button>Ajouter artiste</button></a>
+
+    <p>Button Add artiste</p>
 </div>
 {% endblock %}
