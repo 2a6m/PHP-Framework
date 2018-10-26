@@ -61,15 +61,15 @@ class ArtisteController extends AbstractController
     {
         // find object artiste
         $repository = $this->getDoctrine()->getRepository(Artiste::class);
-        $artiste = $repository->find($id);
+        $artist = $repository->find($id);
 
         // delete object artiste in db
         $em = $this->getDoctrine()->getmanager();
-        $em->remove($artiste);
+        $em->remove($artist);
         $em->flush();
 
         return $this->render('artiste/remove.html.twig', [
-            'artiste' => $artiste,
+            'artiste' => $artist,
         ]);
     }
 
@@ -78,11 +78,32 @@ class ArtisteController extends AbstractController
      */
     public function updateAction(Request $request, $id)
     {
-        return new Response ($id);
-        /*
-        return $this->render('artiste/update.html.twig', [
-            'method_name' => 'artiste update_action',
-        ]);
-        */
+        // find object artiste
+        $repository = $this->getDoctrine()->getRepository(Artiste::class);
+        $artist = $repository->find($id);
+
+        $form = $this->createForm(ArtisteType::class, $artist);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                // fait quelque chose comme sauvegarder la tache dans la db
+
+                // you can fetch the EntityManager via $this->getDoctrine()
+                $em = $this->getDoctrine()->getManager();
+
+                // tell Doctrine you want to (eventually) save the Product (no queries yet)
+                $em->persist($artist);
+
+                // actually executes the queries (i.e. the INSERT query)
+                $em->flush();
+
+                return new Response ('succes');
+            } catch (Exception $e){
+                return new Response ('no succes');
+            }
+      }
+
+      return $this->render('artiste/update.html.twig', array('form' => $form->createView(), 'artiste' => $artist));
     }
 }
