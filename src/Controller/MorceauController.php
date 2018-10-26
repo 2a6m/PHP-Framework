@@ -16,8 +16,9 @@ class MorceauController extends AbstractController
      */
     public function index()
     {
+        $data = $this->getDoctrine()->getRepository(Morceau::class)->findAll();
         return $this->render('morceau/index.html.twig', [
-            'controller_name' => 'MorceauController',
+            'data' => $data,
         ]);
     }
 

@@ -93,7 +93,7 @@ class Morceau
         return $this;
     }
 
-    public function getArtiste(): ?string
+    public function getArtiste(): ?Artiste
     {
         return $this->artiste;
     }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Morceau{% endblock %}
 
 {% block body %}
 <style>
@@ -8,13 +8,38 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div>
+    <h1>Liste des artistes</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/MorceauController.php'|file_link(0) }}">src/Controller/MorceauController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/morceau/index.html.twig'|file_link(0) }}">templates/morceau/index.html.twig</a></code></li>
-    </ul>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Date</th>
+            <th>Duree</th>
+            <th>Artiste</th>
+            <th>Genre</th>
+            <th>Modification</th>
+        </tr>
+
+        {% for d in data %}
+            <tr>
+                <th>{{ d.id }}</th>
+                <th>{{ d.titre }}</th>
+                <th>{{ d.date.format('d-m-Y') }}</th>
+                <th>{{ d.duree.format('H:i') }}</th>
+                <th>{{ d.artiste.nom }}</th>
+                <th>{{ d.genre }}</th>
+                <th>
+                    <a href="/morceau/update/{{ d.id }}"><button>Modifier</button></a>
+                    <a href="/morceau/remove/{{ d.id }}"><button>Supprimer</button></a>
+                </th>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="/morceau/add"><button>Ajouter morceau</button></a>
+
 </div>
 {% endblock %}
