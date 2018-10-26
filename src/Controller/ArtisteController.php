@@ -54,23 +54,29 @@ class ArtisteController extends AbstractController
       return $this->render('artiste/add.html.twig', array('form' => $form->createView()));
     }
 
-    /*
-     * @Route("/artiste/remove", name="supprimer_artiste")
+    /**
+     * @Route("/artiste/remove/{id}", name="supprimer_artiste")
      */
-    public function removeAction(Request $request)
+    public function removeAction(Request $request, $id)
     {
+        return new Response ($id);
+        /*
         return $this->render('artiste/remove.html.twig', [
             'method_name' => 'artiste remove_action',
         ]);
+        */
     }
 
-    /*
-     * @Route("/artiste/update", name="modifier_artiste")
+    /**
+     * @Route("/artiste/update/{id}", name="modifier_artiste")
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request, $id)
     {
+        return new Response ($id);
+        /*
         return $this->render('artiste/update.html.twig', [
             'method_name' => 'artiste update_action',
         ]);
+        */
     }
 }

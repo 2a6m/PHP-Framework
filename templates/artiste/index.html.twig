@@ -27,8 +27,8 @@
                 <th>{{ d.datenaissance.format('d-m-Y') }}</th>
                 <th>{{ d.genre }}</th>
                 <th>
-                    <a href="/artiste/update"><button>Modifier</button></a>
-                    <a href="/artiste/remove"><button>Supprimer</button></a>
+                    <a href="/artiste/update/{{ d.id }}"><button>Modifier</button></a>
+                    <a href="/artiste/remove/{{ d.id }}"><button>Supprimer</button></a>
                 </th>
             </tr>
         {% endfor %}
@@ -37,6 +37,5 @@
 
     <a href="/artiste/add"><button>Ajouter artiste</button></a>
 
-    <p>Button Add artiste</p>
 </div>
 {% endblock %}
