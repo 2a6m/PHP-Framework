@@ -59,12 +59,18 @@ class ArtisteController extends AbstractController
      */
     public function removeAction(Request $request, $id)
     {
-        return new Response ($id);
-        /*
+        // find object artiste
+        $repository = $this->getDoctrine()->getRepository(Artiste::class);
+        $artiste = $repository->find($id);
+
+        // delete object artiste in db
+        $em = $this->getDoctrine()->getmanager();
+        $em->remove($artiste);
+        $em->flush();
+
         return $this->render('artiste/remove.html.twig', [
-            'method_name' => 'artiste remove_action',
+            'artiste' => $artiste,
         ]);
-        */
     }
 
     /**
