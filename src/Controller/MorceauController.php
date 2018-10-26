@@ -54,4 +54,23 @@ class MorceauController extends AbstractController
 
         return $this->render('morceau/add.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/morceau/remove/{id}", name="supprimer_artiste")
+     */
+    public function removeAction(Request $request, $id)
+    {
+        // find object artiste
+        $repository = $this->getDoctrine()->getRepository(Morceau::class);
+        $morceau = $repository->find($id);
+
+        // delete object artiste in db
+        $em = $this->getDoctrine()->getmanager();
+        $em->remove($morceau);
+        $em->flush();
+
+        return $this->render('morceau/remove.html.twig', [
+            'morceau' => $morceau,
+        ]);
+    }
 }
