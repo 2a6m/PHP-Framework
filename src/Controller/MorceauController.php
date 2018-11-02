@@ -56,11 +56,11 @@ class MorceauController extends AbstractController
     }
 
     /**
-     * @Route("/morceau/remove/{id}", name="supprimer_artiste")
+     * @Route("/morceau/remove/{id}", name="supprimer_morceau")
      */
     public function removeAction(Request $request, $id)
     {
-        // find object artiste
+        // find object morceau
         $repository = $this->getDoctrine()->getRepository(Morceau::class);
         $morceau = $repository->find($id);
 
@@ -72,5 +72,39 @@ class MorceauController extends AbstractController
         return $this->render('morceau/remove.html.twig', [
             'morceau' => $morceau,
         ]);
+    }
+
+    /**
+     * @Route("/morceau/update/{id}", name="modifier_morceau")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        // find object morceau
+        $repository = $this->getDoctrine()->getRepository(Morceau::class);
+        $morceau = $repository->find($id);
+
+        $form = $this->createForm(MorceauType::class, $morceau);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                // fait quelque chose comme sauvegarder la tache dans la db
+
+                // you can fetch the EntityManager via $this->getDoctrine()
+                $em = $this->getDoctrine()->getManager();
+
+                // tell Doctrine you want to (eventually) save the Product (no queries yet)
+                $em->persist($morceau);
+
+                // actually executes the queries (i.e. the INSERT query)
+                $em->flush();
+
+                return new Response ('succes');
+            } catch (Exception $e){
+                return new Response ('no succes');
+            }
+        }
+
+        return $this->render('morceau/update.html.twig', array('form' => $form->createView(), 'morceau' => $morceau));
     }
 }
