@@ -8,26 +8,56 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
-class MorceauController extends AbstractController
+class MorceauControllerAPI extends AbstractController
 {
     /**
-     * @Route("/morceau", name="morceau")
+     * @Route("/api/morceau", name="api_morceau", methods={"GET"})
      */
     public function index()
     {
-        $data = $this->getDoctrine()->getRepository(Morceau::class)->findAll();
-        return $this->render('morceau/index.html.twig', [
-            'data' => $data,
-        ]);
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+
+            return $response;
+        }
+
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        $em= $this->getDoctrine()->getManager();
+        $data = $em->getRepository(Morceau::class)->findAll();
+        $jsonContent = $serializer->serialize($data,'json');
+
+        $response = new JsonResponse();
+        $response->setContent($jsonContent);
+        return $response;
     }
 
     /**
-     * @Route("/morceau/add", name="ajouter_morceau")
+     * @Route("/api/morceau/add", name="api_ajouter_morceau", methods={"POST"})
      */
     public function addAction(Request $request)
     {
         //https://symfony.com/doc/current/best_practices/forms.html
+
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+
+            return $response;
+        }
 
         $morceau = new Morceau();
         $form = $this->createForm(MorceauType::class, $morceau);
@@ -56,10 +86,20 @@ class MorceauController extends AbstractController
     }
 
     /**
-     * @Route("/morceau/remove/{id}", name="supprimer_morceau")
+     * @Route("/api/morceau/remove/{id}", name="api_supprimer_morceau", methods={"DELETE"})
      */
     public function removeAction(Request $request, $id)
     {
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+
+            return $response;
+        }
+
         // find object morceau
         $repository = $this->getDoctrine()->getRepository(Morceau::class);
         $morceau = $repository->find($id);
@@ -75,10 +115,20 @@ class MorceauController extends AbstractController
     }
 
     /**
-     * @Route("/morceau/update/{id}", name="modifier_morceau")
+     * @Route("/api/morceau/update/{id}", name="api_modifier_morceau", methods={"PUT"})
      */
     public function updateAction(Request $request, $id)
     {
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+
+            return $response;
+        }
+
         // find object morceau
         $repository = $this->getDoctrine()->getRepository(Morceau::class);
         $morceau = $repository->find($id);
