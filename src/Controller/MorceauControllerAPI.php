@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use \DateTime;
 
 class MorceauControllerAPI extends AbstractController
 {
@@ -60,29 +61,29 @@ class MorceauControllerAPI extends AbstractController
         }
 
         $morceau = new Morceau();
-        $form = $this->createForm(MorceauType::class, $morceau);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                // fait quelque chose comme sauvegarder la tache dans la db
+        $json = $request->getContent();
+        $content = json_decode($json, true);
 
-                // you can fetch the EntityManager via $this->getDoctrine()
-                $em = $this->getDoctrine()->getManager();
+        $morceau->setTitre($content["titre"]);
+        $morceau->setDuree(DateTime::createFromFormat("i:s",$content["duree"]));
+        $morceau->setGenre($content["genre"]);
 
-                // tell Doctrine you want to (eventually) save the Product (no queries yet)
-                $em->persist($morceau);
+        $em = $this->getDoctrine()->getManager();
+        $artiste = $em->getRepository(Morceau::class)->find($content["artiste"]);
+        $morceau->setArtiste($artiste);
 
-                // actually executes the queries (i.e. the INSERT query)
-                $em->flush();
+        $morceau->setDate(DateTime::createFromFormat("Y/m/d",$content["date"]));
 
-                return new Response ('succes');
-            } catch (Exception $e){
-                return new Response ('no succes');
-            }
+        if (!$morceau) {
+            return new Response("Error: time creation aborted !");
         }
-
-        return $this->render('morceau/add.html.twig', array('form' => $form->createView()));
+        else {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($morceau);
+            $em->flush();
+            return new Response("The type has been successfully added !");
+        }
     }
 
     /**
@@ -101,17 +102,19 @@ class MorceauControllerAPI extends AbstractController
         }
 
         // find object morceau
-        $repository = $this->getDoctrine()->getRepository(Morceau::class);
-        $morceau = $repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $morceau = $em->getRepository(Morceau::class)->find($id);
 
         // delete object artiste in db
-        $em = $this->getDoctrine()->getmanager();
+        if (!$morceau) {
+          throw $this->createNotFoundException(
+              'No song found for this id '.$id
+            );
+          }
+
         $em->remove($morceau);
         $em->flush();
-
-        return $this->render('morceau/remove.html.twig', [
-            'morceau' => $morceau,
-        ]);
+        return new Response("The song was successfully deleted !");
     }
 
     /**
@@ -130,31 +133,29 @@ class MorceauControllerAPI extends AbstractController
         }
 
         // find object morceau
-        $repository = $this->getDoctrine()->getRepository(Morceau::class);
-        $morceau = $repository->find($id);
+        $json = $request->getContent();
+        $content = json_decode($json, true);
 
-        $form = $this->createForm(MorceauType::class, $morceau);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $morceau = $em->getRepository(Morceau::class)->find($id);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                // fait quelque chose comme sauvegarder la tache dans la db
+        $morceau->setTitre($content["titre"]);
+        $morceau->setDuree(DateTime::createFromFormat("i:s",$content["duree"]));
+        $morceau->setGenre($content["genre"]);
 
-                // you can fetch the EntityManager via $this->getDoctrine()
-                $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
+        $artiste = $em->getRepository(Morceau::class)->find($content["artiste"]);
+        $morceau->setArtiste($artiste);
 
-                // tell Doctrine you want to (eventually) save the Product (no queries yet)
-                $em->persist($morceau);
+        $morceau->setDate(DateTime::createFromFormat("Y/m/d",$content["date"]));
 
-                // actually executes the queries (i.e. the INSERT query)
-                $em->flush();
-
-                return new Response ('succes');
-            } catch (Exception $e){
-                return new Response ('no succes');
-            }
+        if (!$morceau) {
+            return new Response("Error: song creation aborted !");
         }
-
-        return $this->render('morceau/update.html.twig', array('form' => $form->createView(), 'morceau' => $morceau));
+        else {
+            $em->persist($morceau);
+            $em->flush();
+            return new Response("The song has been successfully updated !");
+        }
     }
 }
