@@ -28,7 +28,7 @@ class MorceauControllerAPI extends AbstractController
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
 
-            return $response;
+            return $response;
         }
 
         $encoders = array(new JsonEncoder());
@@ -82,7 +82,7 @@ class MorceauControllerAPI extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($morceau);
             $em->flush();
-            return new Response("The type has been successfully added !");
+            return new Response("The song has been successfully added !");
         }
     }
 
@@ -150,7 +150,7 @@ class MorceauControllerAPI extends AbstractController
         $morceau->setDate(DateTime::createFromFormat("Y/m/d",$content["date"]));
 
         if (!$morceau) {
-            return new Response("Error: song creation aborted !");
+            return new Response("Error: time creation aborted !");
         }
         else {
             $em->persist($morceau);
