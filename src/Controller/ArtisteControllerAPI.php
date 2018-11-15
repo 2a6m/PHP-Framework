@@ -8,102 +8,142 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use \DateTime;
 
-class ArtisteController extends AbstractController
+class ArtisteControllerAPI extends AbstractController
 {
     /**
-     * @Route("/artiste", name="artiste")
+     * @Route("/api/artiste", name="api_artiste", methods={"GET"})
      */
     public function index()
     {
-        $data = $this->getDoctrine()->getRepository(Artiste::class)->findAll();
-        return $this->render('artiste/index.html.twig', [
-            'data' => $data,
-        ]);
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+
+            return $response;
+        }
+
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        $em= $this->getDoctrine()->getManager();
+        $data = $em->getRepository(Artiste::class)->findAll();
+        $jsonContent = $serializer->serialize($data,'json');
+
+        $response = new JsonResponse();
+        $response->setContent($jsonContent);
+        return $response;
     }
 
     /**
-     * @Route("/artiste/add", name="ajouter_artiste")
+     * @Route("/api/artiste/add", name="api_ajouter_artiste", methods={"POST"})
      */
     public function addAction(Request $request)
     {
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
 
-        $artist = new Artiste();
-        $form = $this->createForm(ArtisteType::class, $artist);
-        $form->handleRequest($request);
+            return $response;
+        }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                // fait quelque chose comme sauvegarder la tache dans la db
+        $artiste = new Artiste();
 
-                // you can fetch the EntityManager via $this->getDoctrine()
-                $em = $this->getDoctrine()->getManager();
+        $json = $request->getContent();
+        $content = json_decode($json, true);
 
-                // tell Doctrine you want to (eventually) save the Product (no queries yet)
-                $em->persist($artist);
+        $artiste->setNom($content["nom"]);
+        $artiste->setDateNaissance(DateTime::createFromFormat("Y/m/d",$content["date_naissance"]));
+        $artiste->setGenre($content["genre"]);
 
-                // actually executes the queries (i.e. the INSERT query)
-                $em->flush();
-
-                return new Response ('succes');
-            } catch (Exception $e){
-                return new Response ('no succes');
-            }
-      }
-
-      return $this->render('artiste/add.html.twig', array('form' => $form->createView()));
+        if (!$artiste) {
+            return new Response("Error: time creation aborted !");
+        }
+        else {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($artiste);
+            $em->flush();
+            return new Response("The artist has been successfully added !");
+        }
     }
 
     /**
-     * @Route("/artiste/remove/{id}", name="supprimer_artiste")
+     * @Route("/api/artiste/remove/{id}", name="api_supprimer_artiste", methods={"DELETE"})
      */
     public function removeAction(Request $request, $id)
     {
-        // find object artiste
-        $repository = $this->getDoctrine()->getRepository(Artiste::class);
-        $artist = $repository->find($id);
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+
+            return $response;
+        }
+
+        // find object morceau
+        $em = $this->getDoctrine()->getManager();
+        $artiste = $em->getRepository(Artiste::class)->find($id);
 
         // delete object artiste in db
-        $em = $this->getDoctrine()->getmanager();
-        $em->remove($artist);
-        $em->flush();
+        if (!$artiste) {
+          throw $this->createNotFoundException(
+              'No song found for this id '.$id
+            );
+          }
 
-        return $this->render('artiste/remove.html.twig', [
-            'artiste' => $artist,
-        ]);
+        $em->remove($artiste);
+        $em->flush();
+        return new Response("The artist was successfully deleted !");
     }
 
     /**
-     * @Route("/artiste/update/{id}", name="modifier_artiste")
+     * @Route("/api/artiste/update/{id}", name="api_modifier_artiste", methods={"PUT"})
      */
     public function updateAction(Request $request, $id)
     {
-        // find object artiste
-        $repository = $this->getDoctrine()->getRepository(Artiste::class);
-        $artist = $repository->find($id);
+        // just setup a fresh $task object (remove the dummy data)
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+        {
+            $response = new Response();
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
 
-        $form = $this->createForm(ArtisteType::class, $artist);
-        $form->handleRequest($request);
+            return $response;
+        }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                // fait quelque chose comme sauvegarder la tache dans la db
+        // find object morceau
+        $json = $request->getContent();
+        $content = json_decode($json, true);
 
-                // you can fetch the EntityManager via $this->getDoctrine()
-                $em = $this->getDoctrine()->getManager();
+        // find object morceau
+        $em = $this->getDoctrine()->getManager();
+        $artiste = $em->getRepository(Artiste::class)->find($id);
 
-                // tell Doctrine you want to (eventually) save the Product (no queries yet)
-                $em->persist($artist);
+        $artiste->setNom($content["nom"]);
+        $artiste->setDateNaissance(DateTime::createFromFormat("Y/m/d",$content["date_naissance"]));
+        $artiste->setGenre($content["genre"]);
 
-                // actually executes the queries (i.e. the INSERT query)
-                $em->flush();
-
-                return new Response ('succes');
-            } catch (Exception $e){
-                return new Response ('no succes');
-            }
-      }
-
-      return $this->render('artiste/update.html.twig', array('form' => $form->createView(), 'artiste' => $artist));
+        if (!$artiste) {
+            return new Response("Error: time creation aborted !");
+        }
+        else {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($artiste);
+            $em->flush();
+            return new Response("The artist has been successfully added !");
+        }
     }
 }
