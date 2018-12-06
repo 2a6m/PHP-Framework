@@ -9,6 +9,8 @@ export class MusicComponent implements OnInit {
 
   constructor() { }
 
+  music = 'Behind blue eyes';
+
   ngOnInit() {
   }
 
