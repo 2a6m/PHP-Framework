@@ -1,3 +1,20 @@
 <p>
   artist works!
 </p>
+<div>
+    <table>
+        <tr>
+            <th> id </th>
+            <th> name </th>
+            <th> gender </th>
+        </tr>
+        <tr *ngFor="let artist of lst_artist" (click)="onSelect(artist)">
+            <th>{{ artist.id }}</th>
+            <th>{{ artist.name }}</th>
+            <th>{{ artist.gender }}</th>
+        </tr>
+    </table>
+</div>
+<div *ngIf="selectedArtist">
+    <h2>{{ selectedArtist.name }}</h2>
+</div>

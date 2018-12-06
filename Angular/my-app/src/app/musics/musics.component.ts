@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Music } from '../music';
 
 @Component({
   selector: 'app-musics',
@@ -8,8 +9,6 @@ import { Component, OnInit } from '@angular/core';
 export class MusicsComponent implements OnInit {
 
   constructor() { }
-
-  music = 'Behind blue eyes';
 
   ngOnInit() {
   }

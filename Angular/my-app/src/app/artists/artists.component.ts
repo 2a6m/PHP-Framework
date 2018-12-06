@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Artist } from '../artist';
 
 @Component({
   selector: 'app-artists',
@@ -6,10 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./artists.component.css']
 })
 export class ArtistsComponent implements OnInit {
+    lst_artist: Artist[]=[
+        {
+        id: 1,
+        name: "example",
+        birth_date: new Date("12/12/12"),
+        gender: "Rock"}
+    ];
+    selectedArtist: Artist;
 
   constructor() { }
 
   ngOnInit() {
   }
+
+onSelect(artist: Artist): void {
+    this.selectedArtist = artist;
+}
 
 }
