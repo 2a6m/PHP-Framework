@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ArtistComponent } from './artist/artist.component';
-import { MusicComponent } from './music/music.component';
+import { ArtistsComponent } from './artists/artists.component';
+import { MusicsComponent } from './musics/musics.component';
 
 const routes: Routes = [
-    { path: 'artists', component: ArtistComponent },
-    { path: 'musics', component: MusicComponent }
+    { path: 'artists', component: ArtistsComponent },
+    { path: 'musics', component: MusicsComponent }
 ];
 
 @NgModule({
