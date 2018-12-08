@@ -1,6 +1,4 @@
-<p>
-  artist works!
-</p>
+<h2>List of artists</h2>
 <div>
     <table>
         <tr>
@@ -9,12 +7,16 @@
             <th> gender </th>
         </tr>
         <tr *ngFor="let artist of lst_artist" (click)="onSelect(artist)">
-            <th>{{ artist.id }}</th>
-            <th>{{ artist.name }}</th>
-            <th>{{ artist.gender }}</th>
+            <td>{{ artist.id }}</td>
+            <td>{{ artist.name }}</td>
+            <td>{{ artist.gender }}</td>
         </tr>
     </table>
 </div>
 <div *ngIf="selectedArtist">
-    <h2>{{ selectedArtist.name }}</h2>
+    <h2>Artist: {{ selectedArtist.name }}</h2>
+    <ul>
+        <li>{{ selectedArtist.birth_date }}</li>
+        <li>{{ selectedArtist.gender }}</li>
+    </ul>
 </div>
