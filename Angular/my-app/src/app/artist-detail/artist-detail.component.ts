@@ -1,0 +1,16 @@
+import { Component, OnInit } from '@angular/core';
+import { Artist } from '../artist';
+
+@Component({
+  selector: 'app-artist-detail',
+  templateUrl: './artist-detail.component.html',
+  styleUrls: ['./artist-detail.component.css']
+})
+export class ArtistDetailComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
