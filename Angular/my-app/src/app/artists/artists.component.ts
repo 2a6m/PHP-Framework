@@ -11,7 +11,7 @@ export class ArtistsComponent implements OnInit {
         {
         id: 1,
         name: "example",
-        birth_date: new Date("12/12/12"),
+        birthdate: new Date("12/12/12"),
         gender: "Rock"}
     ];
     selectedArtist: Artist;

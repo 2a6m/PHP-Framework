@@ -16,7 +16,8 @@
 <div *ngIf="selectedArtist">
     <h2>Artist: {{ selectedArtist.name }}</h2>
     <ul>
-        <li>{{ selectedArtist.birth_date }}</li>
-        <li>{{ selectedArtist.gender }}</li>
+        <li><span>name: </span>{{ selectedArtist.name }}</li>
+        <li><span>birthdate: </span>{{ selectedArtist.birthdate }}</li>
+        <li><span>gender: </span>{{ selectedArtist.gender }}</li>
     </ul>
 </div>
