@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Artist } from '../artist';
+import { ArtistsService } from '../artists.service';
+import { Observable } from 'rxjs/Observable';
+
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-artists',
@@ -7,22 +11,31 @@ import { Artist } from '../artist';
   styleUrls: ['./artists.component.css']
 })
 export class ArtistsComponent implements OnInit {
-    lst_artist: Artist[]=[
+    /*lst_artist: Artist[]=[
         {
         id: 1,
         name: "example",
         birthdate: new Date("12/12/12"),
         gender: "Rock"}
-    ];
+    ];*/
+    data: any = {};
     selectedArtist: Artist;
+    lst_artist :Artist[];
 
-  constructor() { }
+    constructor(private artistsservice: ArtistsService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.loadArtist();
+    }
 
     onSelect(artist: Artist): void {
         this.selectedArtist = artist;
     }
 
+    loadArtist() {
+        this.artistsservice.getArtists().subscribe(data => {
+            /*console.log(data);*/
+            this.lst_artist = data;
+        });
+    }
 }

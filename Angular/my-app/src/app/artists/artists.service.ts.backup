@@ -1,0 +1,14 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable()
+export class ArtistsService {
+
+    artistURL = "localhost:8000/api/artiste";
+
+    constructor(private http: HttpClient) { }
+
+    getArtists () {
+        return this.http.get<Artist[]>(this.artistURL)
+    }
+}
