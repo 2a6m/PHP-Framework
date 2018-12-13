@@ -1,6 +1,6 @@
 export class Artist {
   id: number;
   name: string;
-  birth_date: Date;
+  birthdate: Date;
   gender: string;
 }

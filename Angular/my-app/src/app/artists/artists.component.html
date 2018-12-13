@@ -4,15 +4,15 @@
         <tr>
             <th> id </th>
             <th> name </th>
-            <th> gender </th>
         </tr>
-        <tr *ngFor="let artist of lst_artist" (click)="onSelect(artist)">
-            <td>{{ artist.id }}</td>
-            <td>{{ artist.name }}</td>
-            <td>{{ artist.gender }}</td>
+        <tr *ngFor="let artist of lst_artist">
+            <td><span class="badge">{{ artist.id }}</span></td>
+            <td [class.selected]="artist == selectedArtist" (click)="onSelect(artist)">{{ artist.name }}</td>
         </tr>
     </table>
 </div>
+
+<!--
 <div *ngIf="selectedArtist">
     <h2>Artist: {{ selectedArtist.name }}</h2>
     <ul>
@@ -20,4 +20,8 @@
         <li><span>birthdate: </span>{{ selectedArtist.birthdate }}</li>
         <li><span>gender: </span>{{ selectedArtist.gender }}</li>
     </ul>
+
 </div>
+-->
+
+<app-artist-detail [artist]="selectedArtist"></app-artist-detail>
