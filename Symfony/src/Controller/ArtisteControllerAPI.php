@@ -21,16 +21,6 @@ class ArtisteControllerAPI extends AbstractController
      */
     public function index()
     {
-        // just setup a fresh $task object (remove the dummy data)
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
-        {
-            $response = new Response();
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-
-            return $response;
-        }
-
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
@@ -40,11 +30,15 @@ class ArtisteControllerAPI extends AbstractController
 
         $response = new JsonResponse();
         $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->setStatusCode('200');
+
         return $response;
     }
 
     /**
-     * @Route("/api/artiste/add", name="api_ajouter_artiste", methods={"POST"})
+     * @Route("/api/artiste/add", name="api_ajouter_artiste", methods={"OPTIONS","POST"})
      */
     public function addAction(Request $request)
     {
@@ -68,18 +62,29 @@ class ArtisteControllerAPI extends AbstractController
         $artiste->setGenre($content["genre"]);
 
         if (!$artiste) {
-            return new Response("Error: time creation aborted !");
+            $response = new Response("Error: time creation aborted !");
+            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->setStatusCode('200');
+
+            returb $response;
         }
         else {
             $em = $this->getDoctrine()->getManager();
             $em->persist($artiste);
             $em->flush();
-            return new Response("The artist has been successfully added !");
+
+            $response = new Response("The artist has been successfully added !");
+            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->setStatusCode('200');
+
+            return $response;
         }
     }
 
     /**
-     * @Route("/api/artiste/remove/{id}", name="api_supprimer_artiste", methods={"DELETE"})
+     * @Route("/api/artiste/remove/{id}", name="api_supprimer_artiste", methods={"OPTIONS","DELETE"})
      */
     public function removeAction(Request $request, $id)
     {
@@ -106,11 +111,17 @@ class ArtisteControllerAPI extends AbstractController
 
         $em->remove($artiste);
         $em->flush();
-        return new Response("The artist was successfully deleted !");
+
+        $response = new Response("The artist was successfully deleted !");
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->setStatusCode('200');
+
+        retun $response;
     }
 
     /**
-     * @Route("/api/artiste/update/{id}", name="api_modifier_artiste", methods={"PUT"})
+     * @Route("/api/artiste/update/{id}", name="api_modifier_artiste", methods={"OPTIONS","PUT"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -143,7 +154,13 @@ class ArtisteControllerAPI extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($artiste);
             $em->flush();
-            return new Response("The artist has been successfully added !");
+
+            $response = new Response("The artist has been successfully added !");
+            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->setStatusCode('200');
+
+            return $response;
         }
     }
 }
