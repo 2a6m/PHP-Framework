@@ -128,6 +128,9 @@ class ArtisteControllerAPI extends AbstractController
      */
     public function updateAction(Request $request, $id)
     {
+        $response = new Response();
+        $query = array();
+
         // just setup a fresh $task object (remove the dummy data)
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
@@ -148,22 +151,24 @@ class ArtisteControllerAPI extends AbstractController
         $artiste = $em->getRepository(Artiste::class)->find($id);
 
         $artiste->setNom($content["nom"]);
-        $artiste->setDateNaissance(DateTime::createFromFormat("Y/m/d",$content["date_naissance"]));
+        $artiste->setDateNaissance(DateTime::createFromFormat("Y-m-d",$content["dateNaissance"]));
         $artiste->setGenre($content["genre"]);
 
         if (!$artiste) {
-            return new Response("Error: time creation aborted !");
+            $response->setStatusCode('404');
+            $query['status'] = false;
         }
         else {
             $em = $this->getDoctrine()->getManager();
             $em->persist($artiste);
             $em->flush();
 
-            $response = new Response("The artist has been successfully added !");
-            $response->headers->set('Content-Type', 'application/json');
             $response->setStatusCode('200');
-
-            return $response;
+            $query['status'] = true;
         }
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
+        return $response;
     }
 }
