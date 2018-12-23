@@ -33,6 +33,6 @@ export class ArtistsService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
         };
 
-        return this.http.put(this.artistURL + '/update/' + artist.id, artist, httpOptions)
+        return this.http.put(this.artistURL + '/update/' + artist.id, artist, httpOptions);
     }
 }

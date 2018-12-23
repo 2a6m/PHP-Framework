@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Music } from 'src/app/music';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, ObservableInput } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +14,25 @@ export class MusicService {
 
     getMusic(): Observable<Music[]> {
         return this.http.get<Music[]>(this.musicURL, { responseType: 'json'});
+    }
+
+    deleteMusic(id): Observable<any> {
+        return this.http.delete(this.musicURL + '/remove/' + id);
+    }
+
+    createMusic(music: Music): Observable<any> {
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+        };
+
+        return this.http.post<Music>(this.musicURL + '/add', music, httpOptions);
+    }
+
+    updateMusic(music: Music): Observable<any> {
+        const httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        };
+
+        return this.http.put(this.musicURL + '/update/' + music.id, music, httpOptions);
     }
 }
