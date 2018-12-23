@@ -84,10 +84,13 @@ class ArtisteControllerAPI extends AbstractController
     }
 
     /**
-     * @Route("/api/artiste/remove/{id}", name="api_supprimer_artiste", methods={"OPTIONS","DELETE"})
+     * @Route("/api/artiste/remove/{id}", name="api_supprimer_artiste", methods={"GET", "OPTIONS","DELETE"})
      */
     public function removeAction(Request $request, $id)
     {
+        $response = new Response();
+        $query = array();
+
         // just setup a fresh $task object (remove the dummy data)
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
@@ -99,24 +102,24 @@ class ArtisteControllerAPI extends AbstractController
             return $response;
         }
 
-        // find object morceau
-        $em = $this->getDoctrine()->getManager();
-        $artiste = $em->getRepository(Artiste::class)->find($id);
-
         // delete object artiste in db
-        if (!$artiste) {
-          throw $this->createNotFoundException(
-              'No song found for this id '.$id
-            );
-          }
+        if (!$id) {
+            $response->setStatusCode('404');
+            $query['status'] = false;
+        }
+        else {
+            $entityManager = $this->getDoctrine()->getManager();
+            $artiste = $entityManager->getRepository(Artiste::class)->find($id);
 
-        $em->remove($artiste);
-        $em->flush();
+            $entityManager->remove($artiste);
+            $entityManager->flush();
 
-        $response = new Response("The artist was successfully deleted !");
+            $response->setStatusCode('200');
+            $query['status'] = true;
+        }
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
-        $response->setStatusCode('200');
-
+        $response->setContent(json_encode($query));
         return $response;
     }
 
