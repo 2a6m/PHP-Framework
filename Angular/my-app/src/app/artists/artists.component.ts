@@ -37,7 +37,9 @@ export class ArtistsComponent implements OnInit {
         this.artistsservice.deleteArtist(id).subscribe((data) => {
             console.log(data);
             if(data.status == true) {
-                this.router.navigate(['/']);
+                this.ngOnInit();
+                this.selectedArtist= null;
+                this.router.navigate(['artists']);
             }
         });
     }
