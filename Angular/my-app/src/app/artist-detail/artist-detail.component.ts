@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Artist } from '../artist';
+import { Artist } from 'src/app/artist';
 
 @Component({
   selector: 'app-artist-detail',

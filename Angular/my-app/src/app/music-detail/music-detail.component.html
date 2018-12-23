@@ -1,0 +1,26 @@
+<div *ngIf="music">
+
+    <h2>{{ music.titre }} Details</h2>
+    <div><span>id: </span>{{ music.id }}</div>
+    <div>
+        <ul>
+            <li><span>id: </span>{{ music.id }}</li>
+            <li><label>title:
+                <input [(ngModel)]="music.titre" placeholder="title"/>
+            </label></li>
+            <li><label>date:
+                <input [(ngModel)]="music.date" placeholder="date"/>
+            </label></li>
+            <li><label>artist:
+                <input [(ngModel)]="music.artiste" placeholder="artiste"/>
+            </label></li>
+            <li><label>duration:
+                <input [(ngModel)]="music.duree" placeholder="duration"/>
+            </label></li>
+            <li><label>gender:
+                <input [(ngModel)]="music.genre" placeholder="gender"/>
+            </label></li>
+        </ul>
+    </div>
+
+</div>
