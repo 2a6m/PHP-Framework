@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Artist } from 'src/app/artist';
-import { HttpClient, HttpHeader } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

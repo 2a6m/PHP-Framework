@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Artist } from 'src/app/artist';
 import { ArtistsService } from 'src/app/artists.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -33,7 +33,7 @@ export class ArtistsComponent implements OnInit {
 
     loadArtist() {
         this.artistsservice.getArtists().subscribe((data) => {
-            //console.log(data);
+            console.log(data);
             this.lst_artist = data;
         });
     }

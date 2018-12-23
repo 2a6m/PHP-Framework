@@ -67,7 +67,7 @@ class ArtisteControllerAPI extends AbstractController
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->setStatusCode('200');
 
-            returb $response;
+            return $response;
         }
         else {
             $em = $this->getDoctrine()->getManager();
@@ -117,7 +117,7 @@ class ArtisteControllerAPI extends AbstractController
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->setStatusCode('200');
 
-        retun $response;
+        return $response;
     }
 
     /**
