@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Music } from '../music';
+import { Music } from 'src/app/music';
+import { MusicService } from 'src/app/music.service';
+import { Observable } from 'rxjs';
+
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-musics',
@@ -7,10 +11,23 @@ import { Music } from '../music';
   styleUrls: ['./musics.component.css']
 })
 export class MusicsComponent implements OnInit {
+    selectedMusic: Music;
+    lst_music: Music[];
 
-  constructor() { }
+    constructor(private musicservice: MusicService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.loadMusic();
+    }
 
+    onSelect(music: Music): void {
+        this.selectedMusic = music
+    }
+
+    loadMusic() {
+        this.musicservice.getMusic().subscribe((data) => {
+            console.log(data);
+            this.lst_music = data;
+        })
+    }
 }

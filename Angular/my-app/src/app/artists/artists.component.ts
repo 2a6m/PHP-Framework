@@ -11,15 +11,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./artists.component.css']
 })
 export class ArtistsComponent implements OnInit {
-    /*lst_artist: Artist[]=[
-        {
-        id: 1,
-        name: "example",
-        birthdate: new Date("12/12/12"),
-        gender: "Rock"}
-    ];*/
     selectedArtist: Artist;
-    lst_artist :Artist[];
+    lst_artist: Artist[];
 
     constructor(private artistsservice: ArtistsService) { }
 
