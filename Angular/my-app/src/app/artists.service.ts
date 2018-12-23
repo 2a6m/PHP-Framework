@@ -27,4 +27,12 @@ export class ArtistsService {
 
         return this.http.post<Artist>(this.artistURL + '/add', artist, httpOptions);
     }
+
+    updateArtist(artist: Artist): Observable<any> {
+        const httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        };
+
+        return this.http.put(this.artistURL + '/update/' + artist.id, artist, httpOptions)
+    }
 }

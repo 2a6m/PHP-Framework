@@ -32,6 +32,7 @@ export class ArtistsComponent implements OnInit {
         });
     }
 
+    /*
     delete(id) {
         // Delete artist but create an error and don't refresh
         this.artistsservice.deleteArtist(id).subscribe((data) => {
@@ -47,4 +48,5 @@ export class ArtistsComponent implements OnInit {
     create() {
         this.router.navigate(['/artist/create'])
     }
+    */
 }

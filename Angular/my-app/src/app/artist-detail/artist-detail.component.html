@@ -1,20 +1,33 @@
 <div *ngIf="artist">
 
-    <h2>{{ artist.name }} Details</h2>
+    <h2>{{ artist.nom }} Details</h2>
     <div><span>id: </span>{{ artist.id }}</div>
+
     <div>
-        <ul>
-            <li><span>id: </span>{{ artist.id }}</li>
-            <li><label>name:
-                <input [(ngModel)]="artist.nom" placeholder="name"/>
-            </label></li>
-            <li><label>birthdate:
-                <input [(ngModel)]="artist.dateNaissance" placeholder="birthdate"/>
-            </label></li>
-            <li><label>gender:
-                <input [(ngModel)]="artist.genre" placeholder="gender"/>
-            </label></li>
-        </ul>
+        <form (ngSubmit)="onSubmit()">
+            <ul>
+                <li><label>name:
+                    <input type="text" [(ngModel)]="artist.nom" placeholder="name" name="name"/>
+                </label></li>
+                <li><label>birthdate:
+                    <input type="date" [(ngModel)]="artist.dateNaissance" placeholder="birthdate" name="birthdate"/>
+                </label></li>
+                <li><label>gender:
+                    <input type="text" [(ngModel)]="artist.genre" placeholder="gender" name="gender"/>
+                </label></li>
+            </ul>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
     </div>
 
+    <div>
+        <button (click)="create()">Create Artist</button>
+        <button (click)="delete(artist.id)">Delete Artist</button>
+    </div>
+
+</div>
+
+<div *ngIf="!artist">
+    <button (click)="create()">Create Artist</button>
 </div>
