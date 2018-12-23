@@ -32,25 +32,27 @@ class MorceauControllerAPI extends AbstractController
         $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->setStatusCode('200');
 
         return $response;
     }
 
     /**
-     * @Route("/api/morceau/add", name="api_ajouter_morceau", methods={"OPTIONS","POST"})
+     * @Route("/api/morceau/add", name="api_ajouter_morceau", methods={"GET","OPTIONS","POST"})
      */
     public function addAction(Request $request)
     {
         //https://symfony.com/doc/current/best_practices/forms.html
 
+        $response = new Response();
+        $query = array();
+
         // just setup a fresh $task object (remove the dummy data)
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
-            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type', true);
             return $response;
         }
 
@@ -70,59 +72,62 @@ class MorceauControllerAPI extends AbstractController
         $morceau->setDate(DateTime::createFromFormat("Y/m/d",$content["date"]));
 
         if (!$morceau) {
-            $response = new Response("Error: time creation aborted !");
-            $response->headers->set('Content-Type', 'application/json');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->setStatusCode('200');
-
-            return $response;
+            $response->setStatusCode('404');
+            $query['status'] = false;
         }
         else {
             $em = $this->getDoctrine()->getManager();
             $em->persist($morceau);
             $em->flush();
-            $response = new Response("The song has been successfully added !");
-            $response->headers->set('Content-Type', 'application/json');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->setStatusCode('200');
 
-            return $response;
+            $response->setStatusCode(200);
+            $query['status'] = true;
         }
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
+
+        return $response;
     }
 
     /**
-     * @Route("/api/morceau/remove/{id}", name="api_supprimer_morceau", methods={"OPTIONS","DELETE"})
+     * @Route("/api/morceau/remove/{id}", name="api_supprimer_morceau", methods={"GET","OPTIONS","DELETE"})
      */
     public function removeAction(Request $request, $id)
     {
+        $response = new Response();
+        $query = array();
+
         // just setup a fresh $task object (remove the dummy data)
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
-            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
 
             return $response;
         }
 
-        // find object morceau
-        $em = $this->getDoctrine()->getManager();
-        $morceau = $em->getRepository(Morceau::class)->find($id);
-
         // delete object artiste in db
-        if (!$morceau) {
-          throw $this->createNotFoundException(
-              'No song found for this id '.$id
-            );
-          }
+        if (!$id) {
+            $response->setStatusCode('404');
+            $query['status'] = false;
+        }
+        else {
+            // find object morceau
+            $em = $this->getDoctrine()->getManager();
+            $morceau = $em->getRepository(Morceau::class)->find($id);
 
-        $em->remove($morceau);
-        $em->flush();
-        $response = new Response("The song was successfully deleted !");
-        $response->headers->set('Content-Type', 'application/json');
+            $em->remove($morceau);
+            $em->flush();
+
+            $response->setStatusCode('200');
+            $query['status'] = true;
+        }
         $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->setStatusCode('200');
-
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
         return $response;
     }
 
@@ -131,12 +136,16 @@ class MorceauControllerAPI extends AbstractController
      */
     public function updateAction(Request $request, $id)
     {
+        $response = new Response();
+        $query = array();
+
         // just setup a fresh $task object (remove the dummy data)
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
         {
-            $response = new Response();
+            $response->headers->set('Content-Type', 'application/text');
             $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->headers->set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
 
             return $response;
         }
@@ -159,23 +168,19 @@ class MorceauControllerAPI extends AbstractController
         $morceau->setDate(DateTime::createFromFormat("Y/m/d",$content["date"]));
 
         if (!$morceau) {
-            $response = new Response("Error: time creation aborted !");
-            $response->headers->set('Content-Type', 'application/json');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->setStatusCode('200');
-
-            return $response;
+            $response->setStatusCode('404');
+            $query['status'] = false;
         }
         else {
-            $em->persist($morceau);
+            $em->persist($artiste);
             $em->flush();
 
-            $response = new Response("The song has been successfully updated !");
-            $response->headers->set('Content-Type', 'application/json');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->setStatusCode('200');
-
-            return $response;
+            $query['status'] = true;
         }
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($query));
+        return $response;
     }
 }

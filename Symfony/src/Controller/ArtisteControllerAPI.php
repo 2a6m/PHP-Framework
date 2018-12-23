@@ -159,7 +159,6 @@ class ArtisteControllerAPI extends AbstractController
             $query['status'] = false;
         }
         else {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($artiste);
             $em->flush();
 
