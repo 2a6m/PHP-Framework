@@ -1,0 +1,33 @@
+<h2>Create artist</h2>
+<div>
+    <form (ngSubmit)="onSubmit()">
+        <ul>
+            <li><label>name:
+                <input type="text" [(ngModel)]="newArtist.nom" placeholder="name" name="name"/>
+            </label></li>
+            <li><label>birthdate:
+                <input type="date" [(ngModel)]="newArtist.dateNaissance" placeholder="birthdate" name="birthdate"/>
+            </label></li>
+            <li><label>gender:
+                <input type="text" [(ngModel)]="newArtist.genre" placeholder="gender" name="gender"/>
+            </label></li>
+        </ul>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+<!--<div>
+        <ul>
+            <li><label>name:
+                <input [(ngModel)]="artist.nom" placeholder="name"/>
+            </label></li>
+            <li><label>birthdate:
+                <input [(ngModel)]="artist.dateNaissance" placeholder="birthdate"/>
+            </label></li>
+            <li><label>gender:
+                <input [(ngModel)]="artist.genre" placeholder="gender"/>
+            </label></li>
+        </ul>
+    </div>
+-->
+</div>

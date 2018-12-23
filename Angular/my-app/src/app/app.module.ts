@@ -9,6 +9,7 @@ import { MusicsComponent } from './musics/musics.component';
 import { ArtistsComponent } from './artists/artists.component';
 import { ArtistDetailComponent } from './artist-detail/artist-detail.component';
 import { MusicDetailComponent } from './music-detail/music-detail.component';
+import { ArtistCreateComponent } from './artist-create/artist-create.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MusicDetailComponent } from './music-detail/music-detail.component';
     MusicsComponent,
     ArtistsComponent,
     ArtistDetailComponent,
-    MusicDetailComponent
+    MusicDetailComponent,
+    ArtistCreateComponent
   ],
   imports: [
     BrowserModule,

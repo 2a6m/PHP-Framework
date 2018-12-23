@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Artist } from 'src/app/artist';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, ObservableInput } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +14,17 @@ export class ArtistsService {
 
     getArtists(): Observable<Artist[]> {
         return this.http.get<Artist[]>(this.artistURL,  { responseType: 'json' });
+    }
+
+    deleteArtist(id): Observable<any> {
+        return this.http.delete(this.artistURL + '/remove/' + id);
+    }
+
+    createArtist(artist: Artist): Observable<any> {
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+        };
+
+        return this.http.post<Artist>(this.artistURL + '/add', artist, httpOptions);
     }
 }
