@@ -5,6 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/*
+ *  Class to present the model of an artist.
+ *  It will define all the information contain in the artist object.
+ *  The file is generate via cmd line (cf.: slides)
+ *  There is also an ORM (Object-Relational Mapping) to link these object an a database.
+ *  (the database informations for the connection are in the file `Symfony/.env`)
+ */
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArtisteRepository")
  */

@@ -15,28 +15,45 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use \DateTime;
 
+/*
+ *  Controller to propose the API interface for the music's model.
+ *  It will return response in json (standardisation of the API's communication).
+ *  An CRUD API have 4 methods: Create/POST, Read/GET, Update/PUT, Delete/DELETE (there call in html).
+ */
 class MorceauControllerAPI extends AbstractController
 {
+    /*
+     *  Method for Read/GET.
+     */
     /**
      * @Route("/api/morceau", name="api_morceau", methods={"GET"})
      */
     public function index()
     {
+        // Generate a new jsonencoder
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
         $em= $this->getDoctrine()->getManager();
+        // We find all the artist in the db via the ORM
         $data = $em->getRepository(Morceau::class)->findAll();
+        // We transform the data into a json format
         $jsonContent = $serializer->serialize($data,'json');
 
+        // Generate a json respond (nb: the API return information in json format)
         $response = new JsonResponse();
         $response->setContent($jsonContent);
+        // Add headers to add informations
         $response->headers->set('Content-Type', 'application/json');
+        // Allow CORS Cross-Origin Ressource Sharing (nb: it make a request from an another url)
         $response->headers->set('Access-Control-Allow-Origin', '*');
 
         return $response;
     }
 
+    /*
+     *  Method for Create/POST.
+     */
     /**
      * @Route("/api/morceau/add", name="api_ajouter_morceau", methods={"GET","OPTIONS","POST"})
      */
@@ -57,6 +74,7 @@ class MorceauControllerAPI extends AbstractController
             return $response;
         }
 
+        // Create a new artist with the data received (nb: data on json format in the request)
         $morceau = new Morceau();
 
         $json = $request->getContent();
@@ -73,17 +91,22 @@ class MorceauControllerAPI extends AbstractController
         $morceau->setDate(DateTime::createFromFormat("Y-m-d",$content["date"]));
 
         if (!$morceau) {
+            // Error, create an 404 error
             $response->setStatusCode('404');
             $query['status'] = false;
         }
         else {
+            // save the new artist in the db
             $em = $this->getDoctrine()->getManager();
             $em->persist($morceau);
             $em->flush();
 
+            // create a succes (nb: 200 -> OK)
             $response->setStatusCode(200);
             $query['status'] = true;
         }
+
+        // Add headers and send the response
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($query));
@@ -91,6 +114,9 @@ class MorceauControllerAPI extends AbstractController
         return $response;
     }
 
+    /*
+     *  Method for Delete/DELETE.
+     */
     /**
      * @Route("/api/morceau/remove/{id}", name="api_supprimer_morceau", methods={"GET","OPTIONS","DELETE"})
      */
@@ -110,28 +136,33 @@ class MorceauControllerAPI extends AbstractController
             return $response;
         }
 
-        // delete object artiste in db
         if (!$id) {
+            // Error, create an 404 error
             $response->setStatusCode('404');
             $query['status'] = false;
         }
         else {
-            // find object morceau
+            // delete the artist from the database
             $em = $this->getDoctrine()->getManager();
             $morceau = $em->getRepository(Morceau::class)->find($id);
 
             $em->remove($morceau);
             $em->flush();
 
+            // create a succes (nb: 200 -> OK)
             $response->setStatusCode('200');
             $query['status'] = true;
         }
+        // Add header and send the response
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($query));
         return $response;
     }
 
+    /*
+     *  Method for Update/PUT
+     */
     /**
      * @Route("/api/morceau/update/{id}", name="api_modifier_morceau", methods={"OPTIONS","PUT"})
      */
@@ -151,10 +182,11 @@ class MorceauControllerAPI extends AbstractController
             return $response;
         }
 
-        // find object morceau
+        // get data
         $json = $request->getContent();
         $content = json_decode($json, true);
 
+        // find object artist and do modification
         $em = $this->getDoctrine()->getManager();
         $morceau = $em->getRepository(Morceau::class)->find($id);
 
@@ -169,16 +201,20 @@ class MorceauControllerAPI extends AbstractController
         $morceau->setDate(DateTime::createFromFormat("Y-m-d",$content["date"]));
 
         if (!$morceau) {
+            // Error, create an 404 error
             $response->setStatusCode('404');
             $query['status'] = false;
         }
         else {
-            $em->persist($artiste);
+            // save the modification
+            $em->persist($morceau);
             $em->flush();
 
+            // create a succes (nb: 200 -> OK)
             $response->setStatusCode('200');
             $query['status'] = true;
         }
+        // Add header and send the response
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent(json_encode($query));

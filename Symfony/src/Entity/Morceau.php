@@ -7,6 +7,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 // https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html
 
+/*
+ *  Class to present the model of a music.
+ *  It will define all the information contain in the music object.
+ *  The file is generate via cmd line (cf.: slides)
+ *  There is also an ORM (Object-Relational Mapping) to link these object an a database.
+ *  (the database informations for the connection are in the file `Symfony/.env`)
+ */
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MorceauRepository")
  */
