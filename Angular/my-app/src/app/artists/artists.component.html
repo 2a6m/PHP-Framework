@@ -4,10 +4,14 @@
         <tr>
             <th> id </th>
             <th> name </th>
+            <th> birthdate </th>
+            <th> style </th>
         </tr>
         <tr *ngFor="let artist of lst_artist">
             <td><span class="badge">{{ artist.id }}</span></td>
             <td [class.selected]="artist == selectedArtist" (click)="onSelect(artist)">{{ artist.nom }}</td>
+            <td>{{ artist.dateNaissance }}</td>
+            <td>{{ artist.genre }}</td>
         </tr>
     </table>
 </div>

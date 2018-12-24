@@ -3,11 +3,19 @@
     <table>
         <tr>
             <th> id </th>
-            <th> name </th>
+            <th> title </th>
+            <th> artist </th>
+            <th> style </th>
+            <th> duration </th>
+            <th> date </th>
         </tr>
         <tr *ngFor="let music of lst_music">
             <td><span class="badge">{{ music.id }}</span></td>
             <td [class.selected]="music == selectedMusic" (click)="onSelect(music)">{{ music.titre }}</td>
+            <td>{{ music.artiste.nom }}</td>
+            <td>{{ music.genre }}</td>
+            <td>{{ music.duree }}</td>
+            <td>{{ music.date }}</td>
         </tr>
     </table>
 </div>
