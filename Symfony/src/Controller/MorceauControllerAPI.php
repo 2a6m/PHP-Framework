@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Artiste;
 use App\Entity\Morceau;
 use App\Form\MorceauType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,10 +67,10 @@ class MorceauControllerAPI extends AbstractController
         $morceau->setGenre($content["genre"]);
 
         $em = $this->getDoctrine()->getManager();
-        $artiste = $em->getRepository(Morceau::class)->find($content["artiste"]);
+        $artiste = $em->getRepository(Artiste::class)->find($content["artiste"]);
         $morceau->setArtiste($artiste);
 
-        $morceau->setDate(DateTime::createFromFormat("Y/m/d",$content["date"]));
+        $morceau->setDate(DateTime::createFromFormat("Y-m-d",$content["date"]));
 
         if (!$morceau) {
             $response->setStatusCode('404');
@@ -162,10 +163,10 @@ class MorceauControllerAPI extends AbstractController
         $morceau->setGenre($content["genre"]);
 
         $em = $this->getDoctrine()->getManager();
-        $artiste = $em->getRepository(Morceau::class)->find($content["artiste"]);
+        $artiste = $em->getRepository(Artiste::class)->find($content["artiste"]);
         $morceau->setArtiste($artiste);
 
-        $morceau->setDate(DateTime::createFromFormat("Y/m/d",$content["date"]));
+        $morceau->setDate(DateTime::createFromFormat("Y-m-d",$content["date"]));
 
         if (!$morceau) {
             $response->setStatusCode('404');
