@@ -12,9 +12,34 @@ import { Router } from '@angular/router';
 export class MusicDetailComponent implements OnInit {
     @Input() music: Music
 
-  constructor() { }
+    constructor(private router: Router, private musicservice: MusicService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
 
+    }
+
+    delete(id) {
+        // don't refresh
+        this.musicservice.deleteMusic(id).subscribe((data) => {
+            console.log(data);
+            if(data.status == true) {
+                this.router.navigate(['']);
+            }
+        });
+    }
+
+    create() {
+        this.router.navigate(['/music/create'])
+    }
+
+    onSubmit() {
+        // don't refresh
+        console.log(this.music)
+        this.musicservice.updateMusic(this.music).subscribe((data) => {
+            console.log(data);
+            if(data.status == true) {
+                this.router.navigate(['']);
+            }
+        });
+    }
 }

@@ -1,0 +1,25 @@
+<h2>Create music</h2>
+<div>
+    <form (ngSubmit)="onSubmit()">
+        <ul>
+            <li><label>name:
+                <input type="text" [(ngModel)]="newMusic.titre" placeholder="title" name="title"/>
+            </label></li>
+            <li><label>birthdate:
+                <input type="date" [(ngModel)]="newMusic.date" placeholder="date" name="date"/>
+            </label></li>
+            <li><label>artist:
+                <input type="number" [(ngModel)]="newMusic.artiste" placeholder="1" name="artist"/>
+            </label></li>
+            <li><label>duration:
+                <input type="text" [(ngModel)]="newMusic.duree" placeholder="mm:ss" name="duration"/>
+            </label></li>
+            <li><label>gender:
+                <input type="text" [(ngModel)]="newMusic.genre" placeholder="gender" name="gender"/>
+            </label></li>
+        </ul>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

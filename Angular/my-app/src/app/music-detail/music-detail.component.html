@@ -7,19 +7,19 @@
         <form (ngSubmit)="onSubmit()">
         <ul>
             <li><label>title:
-                <input [(ngModel)]="music.titre" placeholder="title" name="title"/>
+                <input type="text" [(ngModel)]="music.titre" placeholder="title" name="title"/>
             </label></li>
             <li><label>date:
-                <input [(ngModel)]="music.date" placeholder="date" name="date"/>
+                <input type="date" [(ngModel)]="music.date" placeholder="date" name="date"/>
             </label></li>
             <li><label>artist:
-                <input [(ngModel)]="music.artiste.nom" placeholder="artiste" name="artist"/>
+                <input type="number" [(ngModel)]="music.artiste" placeholder="artiste" name="artist"/>
             </label></li>
             <li><label>duration:
-                <input [(ngModel)]="music.duree" placeholder="duration" name="duration"/>
+                <input type="text" [(ngModel)]="music.duree" placeholder="duration" name="mm:ss"/>
             </label></li>
             <li><label>gender:
-                <input [(ngModel)]="music.genre" placeholder="gender" name="gender"/>
+                <input type="text" [(ngModel)]="music.genre" placeholder="gender" name="gender"/>
             </label></li>
         </ul>
 
