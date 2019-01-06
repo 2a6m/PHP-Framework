@@ -1,10 +1,14 @@
 ## Start server Symfony
 
+in repository `Project/Symfony/`
+
 `php bin/console server:run`
 
 server is in `localhost:8000`
 
 ## Start client Angular
+
+in repository `Project/Angular/my-app/`
 
 `ng serve`
 
